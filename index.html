@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#111827">
+    <meta name="description" content="Suivez l’évolution des ventes de billets à Wavre et des inscriptions à La Louvière.">
+    <title>Suivi des ventes — Annie</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="dashboard.js" defer></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Suivi des ventes, accueil">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span>Annie <span class="brand-divider">/</span> Suivi des ventes</span>
+      </a>
+      <span class="live-status"><span class="live-dot"></span>Données du dépôt</span>
+    </header>
+
+    <main class="page-shell">
+      <section class="intro" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">VOTRE ACTIVITÉ, EN UN COUP D’ŒIL</p>
+          <h1 id="page-title">Les ventes <span>progressent.</span></h1>
+          <p class="intro-copy">Retrouvez les derniers chiffres et leur évolution pour vos deux événements.</p>
+        </div>
+      </section>
+
+      <div class="city-tabs" role="tablist" aria-label="Choisir une ville">
+        <button id="tab-wavre" class="city-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="city-wavre" tabindex="0">Wavre</button>
+        <button id="tab-lalouviere" class="city-tab" type="button" role="tab" aria-selected="false" aria-controls="city-lalouviere" tabindex="-1">La Louvière</button>
+      </div>
+      <label class="period-control">
+        <span>Période affichée</span>
+        <select id="period-filter" aria-label="Choisir la période affichée">
+          <option value="yesterday">Hier</option>
+          <option value="7">7 derniers jours</option>
+          <option value="15">15 derniers jours</option>
+          <option value="30" selected>30 derniers jours</option>
+          <option value="90">90 derniers jours</option>
+          <option value="all">Tout l’historique</option>
+        </select>
+      </label>
+
+      <div class="city-panel" id="city-wavre" role="tabpanel" aria-labelledby="tab-wavre">
+      <section class="overview-grid" aria-label="Derniers chiffres à Wavre">
+        <article class="overview-card overview-wavre" id="overview-wavre" aria-live="polite">
+          <div class="overview-topline">
+            <span class="event-label"><span class="event-dot"></span>WAVRE · UTICK</span>
+            <span class="card-icon" aria-hidden="true">↗</span>
+          </div>
+          <p class="metric-caption">Billets vendus</p>
+          <div class="metric-row">
+            <strong class="metric-value" data-field="total">—</strong>
+            <span class="change-badge" data-field="change">Chargement…</span>
+          </div>
+          <div class="overview-footer">
+            <span data-field="subtitle">Samedi et dimanche</span>
+            <span data-field="updated">—</span>
+          </div>
+          <div class="session-split">
+            <span><i class="legend-dot legend-violet"></i>Samedi <b data-field="first">—</b></span>
+            <span><i class="legend-dot legend-lilac"></i>Dimanche <b data-field="second">—</b></span>
+          </div>
+          <div class="capacity">
+            <p class="capacity-title">Remplissage par séance · La Sucrerie</p>
+            <div class="capacity-session">
+              <div class="capacity-heading">
+                <span>Samedi</span>
+                <strong data-field="capacity-percent-0">—</strong>
+              </div>
+              <div
+                class="capacity-track"
+                role="progressbar"
+                aria-label="Remplissage de la séance du samedi à La Sucrerie"
+                aria-valuemin="0"
+                aria-valuemax="850"
+                aria-valuenow="0"
+                data-field="capacity-bar-0"
+              >
+                <span></span>
+              </div>
+              <p class="capacity-caption" data-field="capacity-caption-0">— places disponibles sur 850</p>
+            </div>
+            <div class="capacity-session">
+              <div class="capacity-heading">
+                <span>Dimanche</span>
+                <strong data-field="capacity-percent-1">—</strong>
+              </div>
+              <div
+                class="capacity-track"
+                role="progressbar"
+                aria-label="Remplissage de la séance du dimanche à La Sucrerie"
+                aria-valuemin="0"
+                aria-valuemax="850"
+                aria-valuenow="0"
+                data-field="capacity-bar-1"
+              >
+                <span></span>
+              </div>
+              <p class="capacity-caption" data-field="capacity-caption-1">— places disponibles sur 850</p>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <section class="chart-section" aria-labelledby="wavre-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">HISTORIQUE DES VENTES</p>
+            <h2 id="wavre-title">Wavre <span class="section-tag">Utick</span></h2>
+          </div>
+          <p class="section-note">Billets vendus par séance</p>
+        </div>
+        <article class="chart-card" id="chart-wavre">
+          <div class="chart-legend" aria-label="Légende du graphique">
+            <span><i class="legend-dot legend-violet"></i>Samedi</span>
+            <span><i class="legend-dot legend-lilac"></i>Dimanche</span>
+          </div>
+          <div class="chart-wrap" data-chart="wavre">
+            <p class="chart-message">Chargement des données…</p>
+          </div>
+          <p class="chart-footnote" data-footnote="wavre"></p>
+        </article>
+      </section>
+
+      <section class="chart-section forecast-section" aria-labelledby="forecast-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CAPACITÉ &amp; DATE DES ÉVÉNEMENTS</p>
+            <h2 id="forecast-title">Estimation du sold-out</h2>
+          </div>
+          <p class="section-note">Projection au rythme récent des ventes</p>
+        </div>
+        <div class="forecast-grid">
+          <article class="forecast-card forecast-wavre" data-forecast-city="wavre">
+            <div class="forecast-card-heading">
+              <h3>Wavre <span>La Sucrerie</span></h3>
+              <p>Représentations des 19 et 20 décembre 2026</p>
+            </div>
+            <ul class="projection-list" data-projection-list aria-label="Estimation du sold-out à Wavre">
+              <li class="projection-empty">Calcul en cours…</li>
+            </ul>
+          </article>
+        </div>
+        <p class="forecast-caveat">Ce n’est pas une probabilité statistique : la date est une extrapolation linéaire du rythme net moyen des 30 derniers jours (au moins 7 jours de données). Elle ne tient pas compte des campagnes à venir, annulations ou effets de dernière minute. Le rythme nécessaire compare les places restantes aux jours avant la représentation.</p>
+      </section>
+
+      <section class="chart-section leaderboard-section" aria-labelledby="leaderboard-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LES PLUS BELLES JOURNÉES</p>
+            <h2 id="leaderboard-title">Top 5 des ventes <span class="section-tag">par ville</span></h2>
+          </div>
+          <p class="section-note">Hausses entre deux relevés · premier relevé exclu</p>
+        </div>
+        <div class="leaderboard-grid">
+          <article class="leaderboard-card leaderboard-wavre">
+            <h3><i class="legend-dot legend-violet"></i>Wavre <span>samedi + dimanche</span></h3>
+            <ol data-ranking="wavre"><li class="ranking-empty">Chargement…</li></ol>
+          </article>
+        </div>
+      </section>
+
+      <section class="chart-section weekday-section" aria-labelledby="weekday-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">UN REPÈRE POUR VOS CAMPAGNES</p>
+            <h2 id="weekday-title">Quand les ventes accélèrent</h2>
+          </div>
+          <p class="section-note">Variation moyenne entre relevés, par jour de semaine</p>
+        </div>
+        <div class="weekday-grid">
+          <article class="weekday-card weekday-wavre" data-weekday-stats="wavre">
+            <div class="weekday-card-heading">
+              <h3>Wavre <span>La Sucrerie</span></h3>
+              <p data-best-day>Analyse en cours…</p>
+            </div>
+            <ol data-weekday-list aria-label="Variations moyennes des ventes par jour de semaine à Wavre"></ol>
+          </article>
+        </div>
+        <p class="weekday-caveat">À lire comme une tendance, pas comme une preuve de l’effet d’une publicité. Chaque hausse est attribuée au jour du relevé, même si elle couvre plusieurs jours. Comparez avec les dates et budgets de vos campagnes.</p>
+      </section>
+
+      <section class="chart-section month-week-section" aria-labelledby="month-week-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LE BON MOMENT DANS LE MOIS</p>
+            <h2 id="month-week-title">Quelle semaine du mois vend le plus ?</h2>
+          </div>
+          <p class="section-note">Hausse moyenne par période de 7 jours</p>
+        </div>
+        <div class="month-week-grid">
+          <article class="weekday-card weekday-wavre" data-month-week-stats="wavre">
+            <div class="weekday-card-heading">
+              <h3>Wavre <span>La Sucrerie</span></h3>
+              <p data-best-month-week>Analyse en cours…</p>
+            </div>
+            <ol data-month-week-list aria-label="Ventes moyennes par semaine du mois à Wavre"></ol>
+          </article>
+        </div>
+        <p class="weekday-caveat">Semaines du mois : 1–7, 8–14, 15–21, 22–28 et 29–fin du mois. La 5e période est souvent plus courte. Les hausses sont attribuées à la date du relevé ; comparez avec vos campagnes avant d’en tirer une conclusion.</p>
+      </section>
+
+      </div>
+
+      <div class="city-panel" id="city-lalouviere" role="tabpanel" aria-labelledby="tab-lalouviere" hidden>
+      <section class="overview-grid" aria-label="Derniers chiffres à La Louvière">
+        <article class="overview-card overview-lalouviere" id="overview-lalouviere" aria-live="polite">
+          <div class="overview-topline">
+            <span class="event-label"><span class="event-dot"></span>LA LOUVIÈRE · BILLETWEB</span>
+            <span class="card-icon" aria-hidden="true">↗</span>
+          </div>
+          <p class="metric-caption">Billets vendus</p>
+          <div class="metric-row">
+            <strong class="metric-value" data-field="total">—</strong>
+            <span class="change-badge" data-field="change">Chargement…</span>
+          </div>
+          <div class="overview-footer">
+            <span data-field="subtitle">Séances de 14 h et 18 h 30</span>
+            <span data-field="updated">—</span>
+          </div>
+          <div class="session-split">
+            <span><i class="legend-dot legend-green"></i>14 h <b data-field="first">—</b></span>
+            <span><i class="legend-dot legend-mint"></i>18 h 30 <b data-field="second">—</b></span>
+          </div>
+          <div class="capacity">
+            <p class="capacity-title">Remplissage par séance</p>
+            <div class="capacity-session">
+              <div class="capacity-heading">
+                <span>14 h</span>
+                <strong data-field="capacity-percent-0">—</strong>
+              </div>
+              <div
+                class="capacity-track"
+                role="progressbar"
+                aria-label="Remplissage de la séance de 14 h"
+                aria-valuemin="0"
+                aria-valuemax="948"
+                aria-valuenow="0"
+                data-field="capacity-bar-0"
+              >
+                <span></span>
+              </div>
+              <p class="capacity-caption" data-field="capacity-caption-0">— places disponibles sur 948</p>
+            </div>
+            <div class="capacity-session">
+              <div class="capacity-heading">
+                <span>18 h 30</span>
+                <strong data-field="capacity-percent-1">—</strong>
+              </div>
+              <div
+                class="capacity-track"
+                role="progressbar"
+                aria-label="Remplissage de la séance de 18 h 30"
+                aria-valuemin="0"
+                aria-valuemax="948"
+                aria-valuenow="0"
+                data-field="capacity-bar-1"
+              >
+                <span></span>
+              </div>
+              <p class="capacity-caption" data-field="capacity-caption-1">— places disponibles sur 948</p>
+            </div>
+          </div>
+        </article>
+      </section>
+      <section class="chart-section" aria-labelledby="lalouviere-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">SUIVI DES PARTICIPANTS</p>
+            <h2 id="lalouviere-title">La Louvière <span class="section-tag">Billetweb</span></h2>
+          </div>
+          <p class="section-note">Participants payés par séance</p>
+        </div>
+        <article class="chart-card" id="chart-lalouviere">
+          <div class="chart-legend" aria-label="Légende du graphique">
+            <span><i class="legend-dot legend-green"></i>14 h</span>
+            <span><i class="legend-dot legend-mint"></i>18 h 30</span>
+          </div>
+          <div class="chart-wrap" data-chart="lalouviere">
+            <p class="chart-message">Chargement des données…</p>
+          </div>
+          <p class="chart-footnote" data-footnote="lalouviere"></p>
+        </article>
+      </section>
+      <section class="chart-section forecast-section" aria-labelledby="forecast-lalouviere-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CAPACITÉ &amp; DATE DES ÉVÉNEMENTS</p>
+            <h2 id="forecast-lalouviere-title">Estimation du sold-out</h2>
+          </div>
+          <p class="section-note">Projection au rythme récent des ventes</p>
+        </div>
+        <div class="forecast-grid">
+          <article class="forecast-card forecast-lalouviere" data-forecast-city="lalouviere">
+            <div class="forecast-card-heading">
+              <h3>La Louvière <span>Billetweb</span></h3>
+              <p>Représentation du 21 mars 2027</p>
+            </div>
+            <ul class="projection-list" data-projection-list aria-label="Estimation du sold-out à La Louvière">
+              <li class="projection-empty">Calcul en cours…</li>
+            </ul>
+          </article>
+        </div>
+        <p class="forecast-caveat">Ce n’est pas une probabilité statistique : la date est une extrapolation linéaire du rythme net moyen des 30 derniers jours (au moins 7 jours de données). Elle ne tient pas compte des campagnes à venir, annulations ou effets de dernière minute. Le rythme nécessaire compare les places restantes aux jours avant la représentation.</p>
+      </section>
+      <section class="chart-section leaderboard-section" aria-labelledby="leaderboard-lalouviere-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LES PLUS BELLES JOURNÉES</p>
+            <h2 id="leaderboard-lalouviere-title">Top 5 des ventes</h2>
+          </div>
+          <p class="section-note">Hausses entre deux relevés · premier relevé exclu</p>
+        </div>
+        <div class="leaderboard-grid">
+          <article class="leaderboard-card leaderboard-lalouviere">
+            <h3><i class="legend-dot legend-green"></i>La Louvière <span>14 h + 18 h 30</span></h3>
+            <ol data-ranking="lalouviere"><li class="ranking-empty">Chargement…</li></ol>
+          </article>
+        </div>
+      </section>
+      <section class="chart-section weekday-section" aria-labelledby="weekday-lalouviere-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">UN REPÈRE POUR VOS CAMPAGNES</p>
+            <h2 id="weekday-lalouviere-title">Quand les ventes accélèrent</h2>
+          </div>
+          <p class="section-note">Variation moyenne entre relevés, par jour de semaine</p>
+        </div>
+        <div class="weekday-grid">
+          <article class="weekday-card weekday-lalouviere" data-weekday-stats="lalouviere">
+            <div class="weekday-card-heading">
+              <h3>La Louvière <span>Billetweb</span></h3>
+              <p data-best-day>Analyse en cours…</p>
+            </div>
+            <ol data-weekday-list aria-label="Variations moyennes des ventes par jour de semaine à La Louvière"></ol>
+          </article>
+        </div>
+        <p class="weekday-caveat">À lire comme une tendance, pas comme une preuve de l’effet d’une publicité. Chaque hausse est attribuée au jour du relevé, même si elle couvre plusieurs jours. Comparez avec les dates et budgets de vos campagnes.</p>
+      </section>
+      <section class="chart-section month-week-section" aria-labelledby="month-week-lalouviere-title">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">LE BON MOMENT DANS LE MOIS</p>
+            <h2 id="month-week-lalouviere-title">Quelle semaine du mois vend le plus ?</h2>
+          </div>
+          <p class="section-note">Hausse moyenne par période de 7 jours</p>
+        </div>
+        <div class="month-week-grid">
+          <article class="weekday-card weekday-lalouviere" data-month-week-stats="lalouviere">
+            <div class="weekday-card-heading">
+              <h3>La Louvière <span>Billetweb</span></h3>
+              <p data-best-month-week>Analyse en cours…</p>
+            </div>
+            <ol data-month-week-list aria-label="Ventes moyennes par semaine du mois à La Louvière"></ol>
+          </article>
+        </div>
+        <p class="weekday-caveat">Semaines du mois : 1–7, 8–14, 15–21, 22–28 et 29–fin du mois. La 5e période est souvent plus courte. Les hausses sont attribuées à la date du relevé ; comparez avec vos campagnes avant d’en tirer une conclusion.</p>
+      </section>
+      </div>
+
+      <p class="page-error" id="page-error" role="alert" hidden></p>
+      <footer class="page-footer">
+        <span>Mis à jour automatiquement avec les relevés des ventes.</span>
+        <a href="https://github.com/drihaen-88/utick-annie-sales-tracker" target="_blank" rel="noreferrer">Dépôt des données <span aria-hidden="true">↗</span></a>
+      </footer>
+    </main>
+  </body>
+</html>
