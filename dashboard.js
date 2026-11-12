@@ -1,6 +1,7 @@
 const DATASETS = {
   wavre: {
     url: "sales_history.csv",
+    label: "Wavre",
     cardId: "overview-wavre",
     chartId: "wavre",
     capacityPerSession: 850,
@@ -13,6 +14,7 @@ const DATASETS = {
   },
   lalouviere: {
     url: "sales_history_annie_LaLouviere.csv",
+    label: "La Louvière",
     cardId: "overview-lalouviere",
     chartId: "lalouviere",
     capacityPerSession: 948,
@@ -133,18 +135,57 @@ function numericValue(row, key) {
 }
 
 function readRows(rows, dataset) {
-  const valid = rows.map((row) => {
+  const rowsByDate = new Map();
+  rows.forEach((row) => {
     const date = parseDate(row.date);
     const total = numericValue(row, dataset.totalKey);
     const values = dataset.series.map((series) => numericValue(row, series.key));
-    if (!date || total === null || values.some((value) => value === null)) return null;
-    return { ...row, date, total, values };
-  }).filter(Boolean).sort((a, b) => a.date - b.date);
+    if (!date || total === null || values.some((value) => value === null)) return;
+    rowsByDate.set(date.getTime(), { ...row, date, total, values });
+  });
+  const valid = [...rowsByDate.values()].sort((a, b) => a.date - b.date);
 
   if (!valid.length) {
     throw new Error("Aucun relevé valide n’a été trouvé.");
   }
   return valid;
+}
+
+function renderLastUpdated() {
+  const updatedElement = document.getElementById("last-updated");
+  if (!loadedDatasets.length) {
+    updatedElement.textContent = "Dernière mise à jour indisponible";
+    return;
+  }
+
+  const label = document.createElement("span");
+  label.className = "last-updated-label";
+  label.textContent = "Dernière mise à jour · Europe/Brussels";
+  updatedElement.replaceChildren(label);
+
+  loadedDatasets.forEach(({ dataset, rows }, index) => {
+    const latest = rows[rows.length - 1];
+    const formattedDate = [
+      String(latest.date.getDate()).padStart(2, "0"),
+      String(latest.date.getMonth() + 1).padStart(2, "0"),
+      String(latest.date.getFullYear()).slice(-2),
+    ].join("/");
+    const item = document.createElement("span");
+    item.className = "last-updated-item";
+    item.append(
+      document.createTextNode(
+        `${index ? "· " : ""}${dataset.label} : ${formattedDate}`,
+      ),
+    );
+    if (latest.heure) {
+      item.append(document.createTextNode(" "));
+      const time = document.createElement("span");
+      time.className = "last-updated-time";
+      time.textContent = latest.heure;
+      item.append(time);
+    }
+    updatedElement.append(item);
+  });
 }
 
 async function loadDataset(dataset) {
@@ -654,6 +695,7 @@ async function startDashboard() {
   }
 
   if (loadedDatasets.length) renderDashboard();
+  renderLastUpdated();
   if (!loadedDatasets.length && !errors.length) {
     throw new Error("Aucun fichier de données n’a pu être chargé.");
   }

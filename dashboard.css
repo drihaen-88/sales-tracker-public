@@ -129,6 +129,24 @@ h1 span {
   font-size: 13px;
 }
 
+.last-updated {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px 10px;
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: right;
+}
+
+.last-updated-label {
+  color: #596276;
+  font-weight: 650;
+}
+
 .period-control {
   display: grid;
   flex: 0 0 180px;
@@ -947,6 +965,11 @@ h2 {
     flex-direction: column;
     gap: 19px;
     margin-bottom: 22px;
+  }
+
+  .last-updated {
+    justify-content: flex-start;
+    text-align: left;
   }
 
   .period-control {
