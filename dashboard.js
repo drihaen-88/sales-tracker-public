@@ -117,6 +117,20 @@ function parseDate(value) {
   return Number.isNaN(date.getTime()) ? null : date;
 }
 
+function brusselsToday() {
+  const dateParts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-CA", {
+      timeZone: "Europe/Brussels",
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+    })
+      .formatToParts(new Date())
+      .map(({ type, value }) => [type, value]),
+  );
+  return parseDate(`${dateParts.year}-${dateParts.month}-${dateParts.day}`);
+}
+
 function dateDifferenceInDays(start, end) {
   const startUtc = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
   const endUtc = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
@@ -198,6 +212,10 @@ async function loadDataset(dataset) {
 
 function selectedRows(rows, period) {
   if (period === "all") return rows;
+  if (period === "today") {
+    const today = brusselsToday();
+    return rows.filter((row) => row.date.getTime() === today.getTime());
+  }
   const latest = rows[rows.length - 1].date;
   if (period === "yesterday") {
     const yesterday = addDays(latest, -1);
@@ -226,9 +244,11 @@ function updateCard(dataset, rows, visible, period) {
   const change = periodChange(rows, visible, dataset, period);
   const periodLabel = period === "all"
     ? "depuis le début"
-    : period === "yesterday"
-      ? "hier"
-      : `sur ${period} jours`;
+    : period === "today"
+      ? "aujourd’hui"
+      : period === "yesterday"
+        ? "hier"
+        : `sur ${period} jours`;
 
   card.querySelector('[data-field="total"]').textContent = numberFormat.format(latest.total);
   card.querySelector('[data-field="first"]').textContent = numberFormat.format(latest.values[0]);
@@ -239,7 +259,7 @@ function updateCard(dataset, rows, visible, period) {
 
   const badge = card.querySelector('[data-field="change"]');
   if (change === null) {
-    badge.textContent = "Pas de relevé hier";
+    badge.textContent = period === "today" ? "Pas de relevé aujourd’hui" : "Pas de relevé hier";
   } else {
     badge.textContent = `${change > 0 ? "+" : ""}${numberFormat.format(change)} ${periodLabel}`;
   }
@@ -272,14 +292,16 @@ function svgElement(name, attributes = {}) {
   return element;
 }
 
-function renderChart(dataset, rows, visible) {
+function renderChart(dataset, rows, visible, period) {
   const container = document.querySelector(`[data-chart="${dataset.chartId}"]`);
   container.replaceChildren();
 
   if (!visible.length) {
     const message = document.createElement("p");
     message.className = "chart-message";
-    message.textContent = "Aucun relevé enregistré hier.";
+    message.textContent = period === "today"
+      ? "Aucun relevé enregistré aujourd’hui."
+      : "Aucun relevé enregistré hier.";
     container.append(message);
     const footnote = document.querySelector(`[data-footnote="${dataset.chartId}"]`);
     footnote.textContent = "";
@@ -662,7 +684,7 @@ function renderDashboard() {
   for (const { dataset, rows } of loadedDatasets) {
     const visible = selectedRows(rows, period);
     updateCard(dataset, rows, visible, period);
-    renderChart(dataset, rows, visible);
+    renderChart(dataset, rows, visible, period);
   }
 }
 
